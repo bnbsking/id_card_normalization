@@ -1,0 +1,104 @@
+services:
+  rfdetr:
+    build:
+      context: ./detection
+      dockerfile: Dockerfile
+    image: rfdetr:v0
+    container_name: rfdetr_dev
+    working_dir: /app
+    environment:
+      MODE: dev
+    volumes:
+      - ./detection:/app
+      - ./dataset:/dataset
+      - ../../_pytorch/rfdetr:/root/.roboflow/models/
+    command: "bash /app/env.sh"
+    shm_size: "16gb"
+    ports:
+      - "8071:8071"
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              device_ids: ["0"]
+              capabilities: [gpu]
+  
+  classification:
+    build:
+      context: ./classification
+      dockerfile: Dockerfile
+    image: classification:v0
+    container_name: classification_dev
+    working_dir: /app
+    environment:
+      MODE: dev
+      BASE_CFG_PATH: /app/cfgs/cfg.yaml
+      METRICS_PATH: /app/outputs/exp2/eval/metrics.json
+    volumes:
+      - ./classification:/app
+      - ./dataset:/dataset
+      - ../../_huggingface:/root/.cache/huggingface  # pretrain
+      - ../../_pytorch:/models  # save
+    command: "bash /app/env.sh"
+    ports:
+      - "8072:8072"
+    shm_size: "16gb"
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              device_ids: ["0"]
+              capabilities: [gpu]
+  
+  scene_text_recognition:
+    build:
+      context: ./scene_text_recognition
+      dockerfile: Dockerfile
+    image: scene_text_recognition:v0
+    container_name: scene_text_recognition_dev
+    working_dir: /app
+    environment:
+      MODE: dev
+      BASE_CFG_PATH: /app/cfgs/cfg.yaml
+      OPENOCR_FOLDER: /app/_externals/sdk/OpenOCR
+    volumes:
+      - ./scene_text_recognition:/app
+      - ./dataset:/dataset
+      - ../../_pytorch/scene_text_recognition/openocr:/models
+    command: "bash /app/env.sh"
+    shm_size: "16gb"
+    ports:
+      - "8073:8073"
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              device_ids: ["0"]
+              capabilities: [gpu]
+
+  image_normalization:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: image_normalization:v0
+    container_name: image_normalization_dev
+    working_dir: /app
+    ports:
+      - "8070:8070"
+    environment:
+      MODE: dev
+      BASE_CFG_PATH: /app/cfgs/cfg.yaml
+    volumes:
+      - ./image_normalization:/app
+    command: "bash /app/env.sh"
+
+networks:
+  default:
+    driver: bridge
+    ipam:
+      config:
+        - subnet: 172.90.5.8/29
+          gateway: 172.90.5.9

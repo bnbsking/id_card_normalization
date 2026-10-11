@@ -1,0 +1,4 @@
+models:
+  - key: svtrv2
+    model_path1: /models/svtrv2_small363_smtr_gtc_rctc_ch/pretrain/best.pth
+    model_path2: /app/outputs/finetune/exp0/best.pth

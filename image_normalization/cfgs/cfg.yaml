@@ -1,0 +1,9 @@
+detection_url: "http://10.32.210.230:8061/upload"
+classification_url: "http://10.32.210.230:8062/upload"
+categories:
+  - name
+  - gender
+  - date
+  - id_num
+  - address
+str_url: "http://10.32.210.230:8063/upload"

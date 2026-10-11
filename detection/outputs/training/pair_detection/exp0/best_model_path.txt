@@ -1,0 +1,1 @@
+/app/outputs/training/pair_detection/exp0/checkpoint_best_ema.pth

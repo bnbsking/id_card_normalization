@@ -1,0 +1,7 @@
+models:
+  - key: detection_model
+    cls_name: DetectionInference
+    model_folder: /app/outputs/training/detection/exp2
+  - key: pair_detection_model
+    cls_name: PairDetectionInference
+    model_folder: /app/outputs/training/pair_detection/exp0

@@ -1,0 +1,9 @@
+__pycache__/
+logs/
+outputs/training/*/*/*.pth
+outputs/training/*/*/*.ckpt
+outputs/training/*/*/eval/*/vis/
+outputs/training/*/*/eval/*/export_worst/
+outputs/show_labels/
+
+poetry.lock

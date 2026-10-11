@@ -1,0 +1,23 @@
+preprocess:
+  detection_crop_url: "http://10.32.210.230:8061/upload"
+
+train:
+  dataset:
+    ant_path_train: "/dataset/labels/classification_transform/exp2/train.json"
+    ant_path_valid: "/dataset/labels/classification_transform/exp2/valid.json"
+    ant_path_all: "/dataset/labels/classification/exp2/labeled.json"
+    img_size: 518
+    batch_size: 4
+  model:
+    name: "vit_base_patch14_dinov2.lvd142m"  #'vit_small_patch16_dinov3'
+    num_classes: 2
+    epochs: 70
+    lr: 0.0001
+    save_model_path: "/models/vertical_flip_classification/model_exp2.pth"
+    save_history_path: "/app/outputs/exp2/history.json"
+
+models:
+  - key: vertical_flip_classification
+    cls_name: VerticalFlipInference
+    model_history_folder: /app/outputs/exp2
+  

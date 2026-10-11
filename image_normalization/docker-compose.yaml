@@ -1,0 +1,23 @@
+services:
+  image_normalization:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: image_normalization:v0
+    container_name: image_normalization
+    working_dir: /app
+    ports:
+      - "8060:8060"
+    environment:
+      BASE_CFG_PATH: /app/cfgs/cfg.yaml
+    volumes:
+      - ./:/app
+    command: "bash /app/env.sh"
+
+networks:
+  default:
+    driver: bridge
+    ipam:
+      config:
+        - subnet: 172.90.5.4/31
+          gateway: 172.90.5.5

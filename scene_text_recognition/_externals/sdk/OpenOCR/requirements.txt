@@ -1,0 +1,9 @@
+imgaug
+lmdb
+numpy
+opencv-python
+pyclipper
+pyyaml
+rapidfuzz
+regex
+tqdm
